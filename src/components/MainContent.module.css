@@ -1,0 +1,25 @@
+.mainFlexBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.mainBox{
+    margin-top: 10vh;
+    background-color: white;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 90% 10%;
+    width: 60vw;
+    height: 800px;
+    box-shadow: -9px 8px 5px 0px rgba(0,0,0,0.49);
+    -webkit-box-shadow: -9px 8px 5px 0px rgba(0,0,0,0.49);
+    -moz-box-shadow: -9px 8px 5px 0px rgba(0,0,0,0.49);
+}
+
+.profilePicture {
+  background-image: url("/imgs/UGREND.png");
+  background-repeat: no-repeat, repeat;
+  background-size: cover;
+  background-position: top;
+  grid-row: span 2;
+}
