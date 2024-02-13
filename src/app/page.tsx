@@ -1,11 +1,20 @@
 import AboutMe from "@/components/AboutMe";
+import FFLogs from "@/components/FFLogs/FFLogs";
 import MainContent from "@/components/MainContent";
+import { Regions } from "@/types";
 
-export default function Home() {
+
+const Home = ({region = "combined"}: {region: Regions} ) => {
   return (
-    <MainContent> 
-      <AboutMe/>
+    <MainContent>
+      <div>
+        <AboutMe/>
+        <FFLogs region={region}/>
+      </div>
     </MainContent>
 
  );
 }
+
+export default Home;
+

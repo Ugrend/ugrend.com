@@ -1,0 +1,10 @@
+.fflogsTable {
+  width: 100%;
+  font-size: 0.9em;
+}
+.fflogsRow {
+  text-align: center;
+}
+.emptyRow {
+  line-height: 5px;
+}

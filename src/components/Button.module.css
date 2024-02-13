@@ -1,0 +1,16 @@
+.button {
+    width: 100px;
+    border-radius: 0;
+    height: 30px;
+    border: 1px black solid;
+    background-color: inherit;
+    margin: 2px;
+
+  }
+.button:hover{
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+.buttonSelected{
+  background-color: #faedf2;
+}
