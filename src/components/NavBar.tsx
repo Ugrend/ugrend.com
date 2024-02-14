@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styles from './NavBar.module.css'
 import Discord from './Discord/Discord';
+import FFLogsLink from './FFLogsLink';
 const NavBar = () => {
     return <div className={styles.navBar}>
-      <a href='https://www.fflogs.com/character/na/brynhildr/ugrend%20starlight' className={styles.navBarLink}>FFLogs</a>  
+      <FFLogsLink/>
       <Discord/>
       <a href='/' className={styles.navBarLink}>ScreenShots</a>  
       <a href='https://pats.ugrend.com' className={styles.navBarLink}>Pats</a>  
