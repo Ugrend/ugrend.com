@@ -1,0 +1,162 @@
+.DialogOverlay {
+  background-color: rgba(0,0,0,0.6);
+  position: fixed;
+  inset: 0;
+}
+.DialogContent {
+  z-index: 2;
+  border: none;
+  background-color: #292b2f;
+  border-radius: 20px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 550px;
+  max-height: 85vh;
+  font-family: "Segoe Ui Variable", sans-serif;
+  color: #d3d4d5;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.DiscordBanner {
+  height: 100px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #F7B6DD;
+}
+.DiscordBanner a {
+  float: right;
+  margin: 15px;
+}
+.DiscordProfilePicture {
+  width: 120px;
+  height: 120px;
+  float: left;
+  border-radius: 50%;
+  margin: -65px 20px;
+  border: 8px solid #292b2f;
+}
+.DiscordUserInfo {
+  margin: 80px 20px 20px 20px;
+  background-color: #18191c;
+  border-radius: 6px;
+  padding: 10px 15px;
+
+}
+.DiscordDisplayName{
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.DiscordUserName{
+  font-size: 14px;
+  font-weight: 500;
+}
+.DiscordAboutHeader {
+  font-weight: 800;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.DiscordAboutMeContent {
+  font-size: 14px;
+}
+.Connections {
+  margin-top: 10px;
+  display: flex;
+}
+.Connections img {
+  height: 40px;
+  width: 40px;
+  margin: 3px;
+}
+
+.navBarLink{
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin: auto 5px 5px;
+    cursor: pointer;
+}
+
+.DiscordAboutMeContent a{
+    text-decoration: none;
+    color: hsl(200 calc(1 * 100%) 49.4% / 1);
+}
+.Divider{
+  border-top: 1px solid rgba(78, 80, 88, 0.48);
+  margin: 16px 3px 0;
+}
+
+.DiscordStatus {
+  border: 8px solid #131416;
+  border-radius: 50%;
+  margin: 20px -53px;
+  height: 25px;
+  width: 25px;
+  float: left;
+}
+.DiscordStatusOnline {
+  background-color: #23A55A;
+}
+
+.DiscordBadge {
+  border-radius: 5px;
+  background-color: #111214;
+  width: 25px;
+  height: 25px;
+  margin: 25px 3px;
+  float: left;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+.DiscordBadgeIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.TooltipContent {
+  z-index: 2;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 13px;
+  line-height: 1;
+  color: white;
+  margin-bottom: 10px;
+  background-color: #111214;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  user-select: none;
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+
+.DialogContent:focus{
+  outline: none;
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+
