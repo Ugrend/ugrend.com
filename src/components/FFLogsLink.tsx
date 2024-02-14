@@ -7,7 +7,7 @@ const FFLogsLink = () => {
   return <NavigationMenu.Root className={navBarStyles.navBarLink}>
       <NavigationMenu.Item className={styles.MenuItem}>
         <NavigationMenu.Content className={styles.MenuContent}>
-          <a href="https://www.fflogs.com/character/na/brynhildr/ugrend%20starlight">
+          <a target="_blank" href="https://www.fflogs.com/character/na/brynhildr/ugrend%20starlight">
           <div className={styles.FFLogsChar}>
             <img src="/imgs/fflogs_na_avatar.jpg" />
               <div>
@@ -17,7 +17,7 @@ const FFLogsLink = () => {
           </div>
           </a> 
         <div className={styles.Divider}></div>
-          <a href="https://www.fflogs.com/character/na/brynhildr/ugrend%20starlight">
+          <a target="_blank" href="https://www.fflogs.com/character/na/brynhildr/ugrend%20starlight">
             <div className={styles.FFLogsChar}>
               <img src="/imgs/fflogs_oc_avatar.jpg" />
                <div>

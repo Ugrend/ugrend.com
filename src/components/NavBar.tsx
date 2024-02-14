@@ -6,9 +6,8 @@ const NavBar = () => {
     return <div className={styles.navBar}>
       <FFLogsLink/>
       <Discord/>
-      <a href='/' className={styles.navBarLink}>ScreenShots</a>  
-      <a href='https://pats.ugrend.com' className={styles.navBarLink}>Pats</a>  
-      <a href='https://korelael.com' className={styles.navBarLink}>Art</a>  
+      <a target='_blank' href='https://pats.ugrend.com' className={styles.navBarLink}>Pats</a>  
+      <a target='_blank' href='https://korelael.com' className={styles.navBarLink}>Art</a>  
     </div>
 }
 
