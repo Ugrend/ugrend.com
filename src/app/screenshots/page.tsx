@@ -10,7 +10,7 @@ const ScreenShotsPage = () => {
         <Screenshot src="/imgs/screenshots/UCOB.jpg">
           <div>
             <b>UCOB</b> - Cleared 08/01/23 <br/>
-            Players: Cynthia Bastet, Yuumi Meow, Koko Aoi, Olgierd Everec, Hedgehog's Dillemma, Shamb Molkot, Aaze Astraea 
+            Players: Cynthia Bastet, Yuumi Meow, Koko Aoi, Olgierd Everec, Hedgehog&apos;s Dillemma, Shamb Molkot, Aaze Astraea 
           </div>
         </Screenshot>
         <Screenshot src="/imgs/screenshots/TOP.jpg">
@@ -21,7 +21,7 @@ const ScreenShotsPage = () => {
         </Screenshot>
         <Screenshot src="/imgs/screenshots/TEA.jpg">
           <div>
-            <b>TEA</b> - Cleared 20/12/23 <br/>
+             <b>TEA</b> - Cleared 20/12/23 <br/>
             Players: Ely Dorne, Artemis Moonstalker, Dins Fway, Koko Aoi, Kigga Quah, Myriel Aliapoh, Yae Miho
           </div>
         </Screenshot>

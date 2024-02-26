@@ -1,15 +1,14 @@
 import AboutMe from "@/components/AboutMe";
 import FFLogs from "@/components/FFLogs/FFLogs";
 import MainContent from "@/components/MainContent";
-import { Regions } from "@/types";
 
 
-const Home = ({region = "combined"}: {region: Regions} ) => {
+const Home = () => {
   return (
     <MainContent>
       <div>
         <AboutMe/>
-        <FFLogs region={region}/>
+        <FFLogs region={"combined"}/>
       </div>
     </MainContent>
 
