@@ -1,0 +1,8 @@
+.container {
+  margin-top: 20px;
+}
+
+.screenshot {
+ object-fit: cover;
+ border: solid white 4px;
+}
