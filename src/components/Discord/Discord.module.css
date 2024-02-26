@@ -1,10 +1,11 @@
 .DialogOverlay {
   background-color: rgba(0,0,0,0.6);
   position: fixed;
+  z-index: 1;
   inset: 0;
 }
 .DialogContent {
-  z-index: 2;
+  z-index: 5;
   border: none;
   background-color: #292b2f;
   border-radius: 20px;

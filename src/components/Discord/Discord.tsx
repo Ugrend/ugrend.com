@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import styles from './Discord.module.css'
+import { relative } from 'path';
 
 const Discord = () => {
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
@@ -13,7 +14,7 @@ const Discord = () => {
         <Dialog.Portal>
           <Dialog.Overlay className={styles.DialogOverlay}/>
         </Dialog.Portal>
-        <Dialog.Content className={styles.DialogContent}>
+        <Dialog.Content className={styles.DialogContent} style={{zIndex: 20}}>
           <div className={styles.DiscordBanner}>
             <Tooltip.Provider delayDuration={100}>
               <Tooltip.Root>

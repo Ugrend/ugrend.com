@@ -34,8 +34,6 @@ const ScreenShotsPage = () => {
         <div style={{marginTop: "50px"}}></div>
       </div>
     </div>
-
-
     <div className={styles.footer}>
       <NavBar showHome={true} solidBackground='#F8C8DC'/>
     </div>
