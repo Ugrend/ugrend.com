@@ -17,7 +17,7 @@ const FFLogsLink = () => {
           </div>
           </a> 
         <div className={styles.Divider}></div>
-          <a target="_blank" href="https://www.fflogs.com/character/na/brynhildr/ugrend%20starlight">
+          <a target="_blank" href="https://www.fflogs.com/character/oc/ravana/ugrend%20moonlight">
             <div className={styles.FFLogsChar}>
               <img src="/imgs/fflogs_oc_avatar.jpg" />
                <div>
