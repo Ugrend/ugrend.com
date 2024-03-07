@@ -26,6 +26,7 @@ export type FFLogsResponse = {
 }
 
 const getToken = async (): Promise<FFLogsOauthToken> => {
+  console.log("Logging into FFLogs")
   const req = await fetch(FF_LOGS_TOKEN_URI, {
     method: "POST", 
     headers: {"Content-Type": "application/json"},
@@ -64,6 +65,7 @@ const minifyOutput = (fflogsPayload: any): FFLogsResponse => {
 }
 
 const FFLogs = () => {
+  console.log("Im being executed");
   let token = getToken();
   return {
     refreshToken: () => token = getToken(),
@@ -75,8 +77,12 @@ const FFLogs = () => {
         token = getToken();
         t = await token;
       }
+      console.log(`Looking up logs for ${charName} ${server} ${region}`)
       const req = await fetch(FF_LOGS_BASE_API_URI, {
         method: "POST",
+        next: {
+          revalidate: 600
+        },
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${t.access_token}`
