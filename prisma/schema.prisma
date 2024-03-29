@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id                Int                @id @default(autoincrement())
+  name              String
+  server            String
+  loadstone_id      Int                @unique
+  avatar_uri        String
+  EmoteCount        EmoteCount[]
+  PatPlayer         EmoteCountSource[] @relation("PatPlayer")
+  SourcePlayer      EmoteCountSource[] @relation("SourcePlayer")
+  AuditPatPlayer    EmoteAudit[]       @relation("PatPlayer")
+  AuditSourcePlayer EmoteAudit[]       @relation("SourcePlayer")
+
+  @@map("player")
+}
+
+model Emote {
+  id               Int                @id @default(autoincrement())
+  name             String             @unique
+  EmoteAudit       EmoteAudit[]
+  EmoteCount       EmoteCount[]
+  EmoteCountSource EmoteCountSource[]
+
+  @@map("emote")
+}
+
+model EmoteCount {
+  id            Int    @id @default(autoincrement())
+  emote         Emote  @relation(fields: [emote_id], references: [id])
+  emote_id      Int
+  PatPlayer     Player @relation(fields: [pat_player_id], references: [id])
+  pat_player_id Int
+  count         Int    @default(0)
+
+  @@unique([emote_id, pat_player_id], name: "emotePlayerUniq")
+  @@map("emote_count")
+}
+
+model EmoteCountSource {
+  id               Int    @id @default(autoincrement())
+  emote            Emote  @relation(fields: [emote_id], references: [id])
+  emote_id         Int
+  PatPlayer        Player @relation("PatPlayer", fields: [pat_player_id], references: [id])
+  pat_player_id    Int
+  SourcePlayer     Player @relation("SourcePlayer", fields: [source_player_id], references: [id])
+  source_player_id Int
+  count            Int    @default(0)
+
+  @@unique([emote_id, pat_player_id, source_player_id], name: "sourcePlayerEmoteUniq")
+  @@map("emote_count_source")
+}
+
+model EmoteAudit {
+  id               Int      @id @default(autoincrement())
+  emote            Emote    @relation(fields: [emote_id], references: [id])
+  emote_id         Int
+  patplayer        Player   @relation("PatPlayer", fields: [pat_player_id], references: [id])
+  pat_player_id    Int
+  source_player    Player   @relation("SourcePlayer", fields: [source_player_id], references: [id])
+  source_player_id Int
+  location         String
+  date             DateTime @default(now())
+
+  @@map("emote_audit")
+}

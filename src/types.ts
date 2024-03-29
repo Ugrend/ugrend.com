@@ -16,3 +16,11 @@ export type PlayerData = {
   CombatInfo?: CombatInfo
 }
 
+export type PatData = {
+  PatPlayer: string
+  PatPlayerServer: string
+  SourcePlayer: string
+  SourcePlayerServer: string 
+  Location: string
+  Emote: string
+}

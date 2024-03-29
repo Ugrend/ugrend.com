@@ -65,7 +65,6 @@ const minifyOutput = (fflogsPayload: any): FFLogsResponse => {
 }
 
 const FFLogs = () => {
-  console.log("Im being executed");
   let token = getToken();
   return {
     refreshToken: () => token = getToken(),

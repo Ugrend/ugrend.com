@@ -12,8 +12,7 @@ const MainContent = ({children}: MainContentProps) => {
     <div className={styles.mainFlexBox}>
     <div className={styles.mainBox}>
       {children}
-      <div className={styles.profilePicture}></div> 
-      <NavBar/>
+      <NavBar showHome={true}/>
     </div>  
   </div>
   <PlayerLocation/>

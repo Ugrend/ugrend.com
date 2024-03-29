@@ -1,19 +1,12 @@
 import AboutMe from "@/components/AboutMe";
 import FFLogs from "@/components/FFLogs/FFLogs";
 import MainContent from "@/components/MainContent";
+import styles from "./page.module.css"
+import Home from "@/components/Home";
 
-
-const Home = () => {
-  return (
-    <MainContent>
-      <div>
-        <AboutMe/>
-        <FFLogs region={"combined"}/>
-      </div>
-    </MainContent>
-
- );
+const HomePage = () => {
+  return <Home region="combined"/>
 }
 
-export default Home;
+export default HomePage;
 

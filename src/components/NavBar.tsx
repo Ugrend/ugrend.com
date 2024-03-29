@@ -19,7 +19,7 @@ const NavBar = ({showHome, solidBackground}: NavBarProps) => {
       <FFLogsLink/>
       <Discord/>
       <Link href="/screenshots" className={styles.navBarLink}>ScreenShots</Link>
-      <a target='_blank' href='https://pats.ugrend.com' className={styles.navBarLink}>Pats</a>  
+      <Link href="https://pats.ugrend.com" target='_blank' className={styles.navBarLink}>Pats</Link>
       <a target='_blank' href='https://korelael.com' className={styles.navBarLink}>Art</a>  
     </div>
 }
