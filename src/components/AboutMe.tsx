@@ -13,7 +13,10 @@ const AboutMe = () => {
       }
     })
     setTimeout(()=>{
-      socket.send(JSON.stringify({"call": "getCombatants"})); 
+      try{
+        socket.send(JSON.stringify({"call": "getCombatants"})); 
+      }
+      catch{}
     }, 1000)
   }, [])
   return <div className={styles.aboutMeBody}>

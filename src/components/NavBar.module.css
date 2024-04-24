@@ -11,3 +11,8 @@
     cursor: pointer;
     margin: auto 5px 5px;
 }
+@media (max-width: 1330px){
+  .navBar{
+        background-color: rgba(25, 255, 255, 0.4);
+  }
+}

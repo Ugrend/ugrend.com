@@ -6,3 +6,9 @@
  object-fit: cover;
  border: solid white 4px;
 }
+
+@media(max-width: 1330px){
+  .screenshot{
+    max-width: 90vw;
+  }
+}
