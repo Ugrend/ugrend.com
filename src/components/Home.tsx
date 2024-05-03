@@ -6,7 +6,7 @@ import { Regions } from '@/types';
 import styles from "./Home.module.css";
 
 const Home = ({region}: {region: Regions}) => {
-   return <MainContent>
+  return <MainContent>
     <div>
       <AboutMe/>
       <FFLogs region={region}/>

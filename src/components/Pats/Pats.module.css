@@ -1,3 +1,6 @@
 .emoteCount::first-letter {
   text-transform: capitalize;
 }
+.emoteCount{
+  margin-right: 5px;
+}

@@ -2,17 +2,23 @@ import Link from 'next/link';
 import * as React from 'react';
 import navStyles from "../NavBar.module.css";
 import { getPatsByPlayerName } from '@/lib/pats';
-import { DataGrid, GridCellParams, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import styles from "./Pats.module.css"
 import PatsTable from './PatsTable';
+import { AvailablePatPlayers } from '@/types';
 type PatsProps = {
-  player: "Ugrend Moonlight"|"Ugrend Starlight"
+  player: AvailablePatPlayers
 }
 
 const Pats = async ({player}: PatsProps) => {
   const style = {textDecoration: "underline"};
   const data = await getPatsByPlayerName(player) 
-  
+  data.totalCount.sort((a,b) => {
+    if(a.emote.name === "pat")
+      return -1
+    if(a.emote.name === "dote" && b.emote.name !== "pat")
+      return -1
+    return 0
+  })
   const rows = Object.keys(data.byPlayer).map(player =>{
     return { player: data.byPlayer[player][0].SourcePlayer, id: player, 
       pats: data.byPlayer[player].find(e => e.emote.name === "pat")?.count || 0,

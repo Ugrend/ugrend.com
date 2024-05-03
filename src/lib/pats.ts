@@ -31,6 +31,7 @@ export const getPatsByPlayerName = async (playerName: string) => {
 
     }
   })
+  console.log(totalCount);
   const countsSource = await client.emoteCountSource.findMany({
     where: {
       PatPlayer: {
@@ -61,7 +62,6 @@ export const getPatsByPlayerName = async (playerName: string) => {
       byPlayer[emote.SourcePlayer.name] = []
     }
     if(emote.SourcePlayer.avatar_uri == null || emote.SourcePlayer.avatar_uri === ""){
-      console.log("Hello");
       const key = emote.SourcePlayer.name + emote.SourcePlayer.server;
       if(refreshCache[key]){
         emote.SourcePlayer = Object.assign({},refreshCache[key])

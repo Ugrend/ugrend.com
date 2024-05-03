@@ -1,7 +1,9 @@
 "use client";
 import * as React from 'react';
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
-
+import PatsToast from './PatsToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const columns: GridColDef[] = [
     {
@@ -26,9 +28,11 @@ const columns: GridColDef[] = [
 
 
 const PatsTable = ({rows}: any) => {
-  return <DataGrid
+  const [currentData, setCurrentData] = React.useState(rows);
+  return <div>
+<DataGrid
     columns={columns}
-    rows={rows}
+    rows={currentData}
     rowHeight={30}
     pageSizeOptions={[15]}
     initialState={
@@ -44,5 +48,7 @@ const PatsTable = ({rows}: any) => {
       }
     }
   />
-}
+    <ToastContainer />
+  <PatsToast updateData={setCurrentData} currentData={currentData} />
+  </div>}
 export default PatsTable

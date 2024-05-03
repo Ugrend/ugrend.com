@@ -1,0 +1,15 @@
+
+
+.patsImg{
+  display: block;
+  margin: auto;
+  height: 375px;
+  width: 375px;
+}
+
+@media (max-width:1330px){
+  .patsImg{
+    position: absolute;
+    z-index: -1;
+  }
+}

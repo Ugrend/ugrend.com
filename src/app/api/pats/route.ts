@@ -2,6 +2,8 @@ import { getPlayerByName } from "@/lib/FFPlayerLookup";
 import { PatData } from "@/types";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { NotifcationHandler } from "../notifications/route";
+import { revalidatePath } from "next/cache";
 const PLAYER_TRACK_API_KEY = process.env.PLAYER_TRACK_API_KEY;
 const prisma = new PrismaClient();
 
@@ -38,7 +40,7 @@ class PatService{
         name: job.Emote
       }
     })
-    await prisma.emoteCount.upsert({
+    const totalCount = await prisma.emoteCount.upsert({
       where:{
         emotePlayerUniq:{
           emote_id: emote.id,
@@ -56,7 +58,7 @@ class PatService{
         count: 1
       }
     })
-    await prisma.emoteCountSource.upsert({
+    const sourceCount = await prisma.emoteCountSource.upsert({
       where:{
         sourcePlayerEmoteUniq: {
           emote_id: emote.id,
@@ -76,7 +78,7 @@ class PatService{
         count: 1
       }
     });
-    await prisma.emoteAudit.create({
+    const auditEvent = await prisma.emoteAudit.create({
       data:{
         emote_id: emote.id,
         pat_player_id: patPlayer.id,
@@ -84,9 +86,18 @@ class PatService{
         location: job.Location
       }
     })
+    NotifcationHandler.addNotification({
+      id: auditEvent.id,
+      player: patPlayer,
+      emoter: sourcePlayer,
+      emote: emote,
+      location: job.Location,
+      total_player: totalCount.count,
+      total_emoter: sourceCount.count,
+      date: new Date()
+    })
+    revalidatePath("/pats");
   }
-
-
 }
 const patService = new PatService();
 
