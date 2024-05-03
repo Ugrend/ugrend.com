@@ -1,16 +1,11 @@
-import { Notification } from "@/app/api/notifications/route";
+import { Notification } from "@/lib/NotifcationHandler";
 import fetcher from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
 import {toast} from "react-toastify";
 import useSWR from "swr";
 
-type PatsToastProps = {
-  currentData: any;
-  updateData: (rows: any) => void;
-}
-
-const PatsToast = ({currentData, updateData}: PatsToastProps) => {
+const PatsToast = () => {
   const {data} = useSWR<Notification[]>("/api/notifications", fetcher, {refreshInterval: 2000})
   const router = useRouter();
   if(data){

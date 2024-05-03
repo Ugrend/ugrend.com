@@ -28,11 +28,10 @@ const columns: GridColDef[] = [
 
 
 const PatsTable = ({rows}: any) => {
-  const [currentData, setCurrentData] = React.useState(rows);
   return <div>
 <DataGrid
     columns={columns}
-    rows={currentData}
+    rows={rows}
     rowHeight={30}
     pageSizeOptions={[15]}
     initialState={
@@ -49,6 +48,6 @@ const PatsTable = ({rows}: any) => {
     }
   />
     <ToastContainer />
-  <PatsToast updateData={setCurrentData} currentData={currentData} />
+  <PatsToast />
   </div>}
 export default PatsTable
