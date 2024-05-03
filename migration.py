@@ -3,7 +3,7 @@ import psycopg2.extras
 import json
 
 old_pats_db_uri = "host=%s port=%s dbname=%s user=%s" % ("localhost", 5433, "pats", "postgres")
-new_pats = "host=%s dbname=%s user=%s" % ("localhost", "ugrendcom", "postgres")
+new_pats = "host=%s port=%s dbname=%s user=%s" % ("localhost", 5433, "ugrendcom", "postgres")
 
 
 
@@ -31,7 +31,7 @@ def lookup_user_new(player_name: str, server: str):
         return cursor.fetchone()
 
 def create_player_new(name: str, server: str, lodestone_id: int, avatar_uri: str):
-    with new_pats_conn.cursor() as cursor:
+    with new_pats_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
         cursor.execute("INSERT INTO player (name, server, loadstone_id, avatar_uri) VALUES (%s,%s,%s,%s) RETURNING *", (name, server, lodestone_id, avatar_uri))
         new_pats_conn.commit()
         return cursor.fetchone()
@@ -43,7 +43,8 @@ def migrate_player(player_id: int):
     if old_player:
         new_player = lookup_user_new(old_player["name"], old_player["server"])
         if not new_player:
-            new_player = create_player_new(old_player["name"], old_player["server"], old_player["lodestone_id"], old_player["avatar_uri"])
+            if old_player["lodestone_id"]:
+                new_player = create_player_new(old_player["name"], old_player["server"], old_player["lodestone_id"], old_player["avatar_uri"])
         return new_player
 
 def migrate_emote(emote: str, source_new_player_id: int, target_new_player_id: int, count: int):
@@ -58,6 +59,8 @@ def migrate():
         for pk, pv in v["players"].items():
             source_new = migrate_player(pk)
             if source_new and new_target:
+                print(json.dumps(source_new))
+                print(new_target)
                 for emote, count in pv.items():
                     emote = emote.lower()
                     if "pat" in emote:
