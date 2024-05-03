@@ -1,4 +1,4 @@
-import { NotifcationHandler } from "@/lib/NotifcationHandler";
+import  NotifcationHandler from "@/lib/NotifcationHandler";
 import { NextResponse } from "next/server";
 
 

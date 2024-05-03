@@ -2,8 +2,7 @@ import { getPlayerByName } from "@/lib/FFPlayerLookup";
 import { PatData } from "@/types";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { NotifcationHandler } from "../notifications/route";
-import { revalidatePath } from "next/cache";
+import NotifcationHandler from "@/lib/NotifcationHandler";
 const PLAYER_TRACK_API_KEY = process.env.PLAYER_TRACK_API_KEY;
 const prisma = new PrismaClient();
 
@@ -96,7 +95,6 @@ class PatService{
       total_emoter: sourceCount.count,
       date: new Date()
     })
-    revalidatePath("/pats");
   }
 }
 const patService = new PatService();
