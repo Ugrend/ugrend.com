@@ -31,6 +31,12 @@ const ScreenShotsPage = () => {
             Players: Fei Lindenblatt, Flita Bahond, Rael Najdorf, Sraphim Windrunner, Luvese Lauriant, Rainu Altea, Gilly Boffingtop
           </div>
         </Screenshot>
+        <Screenshot src="/imgs/screenshots/DSR.jpg">
+          <div>
+            <b>UWU</b> - Cleared 23/06/24 <br/>
+            Players: Eto Woo, Kasumiya Pendragoon, Hinata Hyuga', Gold Tsurugi, Ktb Tekniqz, Beau Ryder, Choco Bao
+          </div>
+        </Screenshot>
         <div style={{marginTop: "50px"}}></div>
       </div>
     </div>
