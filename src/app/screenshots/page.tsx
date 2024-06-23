@@ -33,7 +33,7 @@ const ScreenShotsPage = () => {
         </Screenshot>
         <Screenshot src="/imgs/screenshots/DSR.jpg">
           <div>
-            <b>UWU</b> - Cleared 23/06/24 <br/>
+            <b>DSR</b> - Cleared 23/06/24 <br/>
             Players: Eto Woo, Kasumiya Pendragoon, Hinata Hyuga&apos;, Gold Tsurugi, Ktb Tekniqz, Beau Ryder, Choco Bao
           </div>
         </Screenshot>
