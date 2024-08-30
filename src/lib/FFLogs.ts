@@ -4,7 +4,7 @@ const FF_LOGS_BASE_API_URI = "https://www.fflogs.com/api/v2/client";
 const FF_LOGS_TOKEN_URI =  "https://www.fflogs.com/oauth/token";
 const FF_LOGS_CLIENT = process.env.FF_LOGS_CLIENT;
 const FF_LOGS_SECRET = process.env.FF_LOGS_SECRET;
-
+const SAVAGE_ZONE_ID = 62;
 type FFLogsOauthToken = {
   token_type: string;
   expires_in: number;
@@ -44,7 +44,7 @@ const getToken = async (): Promise<FFLogsOauthToken> => {
   
 }
 const minifyOutput = (fflogsPayload: any): FFLogsResponse => {
-  const savage: any[] = fflogsPayload["data"]["characterData"]["character"]["Zone54diff101"]["rankings"]
+  const savage: any[] = fflogsPayload["data"]["characterData"]["character"][`Zone${SAVAGE_ZONE_ID}diff101`]["rankings"]
   const ultimates: any[] = fflogsPayload["data"]["characterData"]["character"]["Zone43diff100"]["rankings"]
   ultimates.push(...fflogsPayload["data"]["characterData"]["character"]["Zone45diff100"]["rankings"])
   ultimates.push(...fflogsPayload["data"]["characterData"]["character"]["Zone53diff100"]["rankings"])
@@ -69,7 +69,7 @@ const FFLogs = () => {
   return {
     refreshToken: () => token = getToken(),
     retrieveRanking: async (charName: string, server: string, region: string): Promise<FFLogsResponse> => {
-      const q = {query: `query {characterData{character(name: "${charName}"serverSlug: "${server}"serverRegion: "${region}"){hidden Zone54diff101: zoneRankings(zoneID: 54, difficulty: 101, metric: rdps, timeframe: Historical)Zone43diff100: zoneRankings(zoneID: 43, difficulty: 100, metric: rdps, timeframe: Historical)Zone45diff100: zoneRankings(zoneID: 45, difficulty: 100, metric: rdps, timeframe: Historical)Zone53diff100: zoneRankings(zoneID: 53, difficulty: 100, metric: rdps, timeframe: Historical)Zone50diff100: zoneRankings(zoneID: 50, difficulty: 100, metric: rdps, timeframe: Historical)Zone55diff100: zoneRankings(zoneID: 55, difficulty: 100, metric: rdps, timeframe: Historical)}}}`}
+      const q = {query: `query {characterData{character(name: "${charName}"serverSlug: "${server}"serverRegion: "${region}"){hidden Zone${SAVAGE_ZONE_ID}diff101: zoneRankings(zoneID: ${SAVAGE_ZONE_ID}, difficulty: 101, metric: rdps, timeframe: Historical)Zone43diff100: zoneRankings(zoneID: 43, difficulty: 100, metric: rdps, timeframe: Historical)Zone45diff100: zoneRankings(zoneID: 45, difficulty: 100, metric: rdps, timeframe: Historical)Zone53diff100: zoneRankings(zoneID: 53, difficulty: 100, metric: rdps, timeframe: Historical)Zone50diff100: zoneRankings(zoneID: 50, difficulty: 100, metric: rdps, timeframe: Historical)Zone55diff100: zoneRankings(zoneID: 55, difficulty: 100, metric: rdps, timeframe: Historical)}}}`}
       let t = await token;
       // check if token has expired and renew if needed
       if(new Date() > t.expires){
