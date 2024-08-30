@@ -16,7 +16,7 @@ const BossIcon = ({boss}: {boss: string}) => {
     "Black Cat" : "/imgs/bosses/M1S.jpg",
     "Honey B. Lovely" : "/imgs/bosses/M2S.jpg",
     "Brute Bomber" : "/imgs/bosses/M3S.jpg",
-    " Wicked Thunder" : "/imgs/bosses/M4S.jpg",
+    "Wicked Thunder" : "/imgs/bosses/M4S.jpg",
   }
 
   return <Image className={styles.jobIcon} height={20} width={20} src={sourceMap[boss]} alt={boss}/>
