@@ -48,6 +48,7 @@ const minifyOutput = (fflogsPayload: any): FFLogsResponse => {
   const ultimates: any[] = fflogsPayload["data"]["characterData"]["character"]["Zone43diff100"]["rankings"]
   ultimates.push(...fflogsPayload["data"]["characterData"]["character"]["Zone45diff100"]["rankings"])
   ultimates.push(...fflogsPayload["data"]["characterData"]["character"]["Zone53diff100"]["rankings"])
+  ultimates.push(...fflogsPayload["data"]["characterData"]["character"]["Zone65diff100"]["rankings"])
   const encounterMap = (x: any):FFLogsBossParse => {
     return {
         boss: x["encounter"]["name"],
@@ -69,7 +70,7 @@ const FFLogs = () => {
   return {
     refreshToken: () => token = getToken(),
     retrieveRanking: async (charName: string, server: string, region: string): Promise<FFLogsResponse> => {
-      const q = {query: `query {characterData{character(name: "${charName}"serverSlug: "${server}"serverRegion: "${region}"){hidden Zone${SAVAGE_ZONE_ID}diff101: zoneRankings(zoneID: ${SAVAGE_ZONE_ID}, difficulty: 101, metric: rdps, timeframe: Historical)Zone43diff100: zoneRankings(zoneID: 43, difficulty: 100, metric: rdps, timeframe: Historical)Zone45diff100: zoneRankings(zoneID: 45, difficulty: 100, metric: rdps, timeframe: Historical)Zone53diff100: zoneRankings(zoneID: 53, difficulty: 100, metric: rdps, timeframe: Historical)Zone50diff100: zoneRankings(zoneID: 50, difficulty: 100, metric: rdps, timeframe: Historical)Zone55diff100: zoneRankings(zoneID: 55, difficulty: 100, metric: rdps, timeframe: Historical)}}}`}
+      const q = {query: `query {characterData{character(name: "${charName}"serverSlug: "${server}"serverRegion: "${region}"){hidden Zone${SAVAGE_ZONE_ID}diff101: zoneRankings(zoneID: ${SAVAGE_ZONE_ID}, difficulty: 101, metric: rdps, timeframe: Historical)Zone43diff100: zoneRankings(zoneID: 43, difficulty: 100, metric: rdps, timeframe: Historical)Zone45diff100: zoneRankings(zoneID: 45, difficulty: 100, metric: rdps, timeframe: Historical)Zone53diff100: zoneRankings(zoneID: 53, difficulty: 100, metric: rdps, timeframe: Historical)Zone50diff100: zoneRankings(zoneID: 50, difficulty: 100, metric: rdps, timeframe: Historical)Zone55diff100: zoneRankings(zoneID: 55, difficulty: 100, metric: rdps, timeframe: Historical)Zone64diff100: zoneRankings(zoneID: 64, difficulty: 100, metric: rdps, timeframe: Historical)}}}`}
       let t = await token;
       // check if token has expired and renew if needed
       if(new Date() > t.expires){
