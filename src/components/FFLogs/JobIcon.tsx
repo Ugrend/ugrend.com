@@ -21,7 +21,8 @@ const JobIcon = ({job}: {job: Jobs}) => {
     "Summoner": "/imgs/jobs/SMN.png",
     "Dancer": "/imgs/jobs/DNC.png",
     "Machinist": "/imgs/jobs/MCH.png",
-    "Bard": "/imgs/jobs/BRD.png"
+    "Bard": "/imgs/jobs/BRD.png",
+    "Pictomancer": "/imgs/jobs/PCT.png"
   }
 
   return <Image className={styles.jobIcon} height={20} width={20} src={sourceMap[job]} alt={job}/>
