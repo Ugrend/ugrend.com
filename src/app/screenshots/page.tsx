@@ -37,6 +37,12 @@ const ScreenShotsPage = () => {
             Players: Eto Woo, Kasumiya Pendragoon, Hinata Hyuga&apos;, Gold Tsurugi, Ktb Tekniqz, Beau Ryder, Choco Bao
           </div>
         </Screenshot>
+        <Screenshot src="/imgs/screenshots/FRU.png">
+          <div>
+            <b>FRU</b> - Cleared 15/01/25 <br/>
+            Players: The Jitters, Sir Bj, Sausage Roll, Saori Starfall, Mister Avocado, Conger Nolonger, M&apos;ao Mao
+          </div>
+        </Screenshot>
         <div style={{marginTop: "50px"}}></div>
       </div>
     </div>
