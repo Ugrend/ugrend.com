@@ -41,9 +41,7 @@ def refresh_token() -> FFLogsTokenResponse:
     try:
         response = httpx.post(FF_LOGS_TOKEN_URI, json=payload, headers=headers)
         response.raise_for_status()
-        
         data = response.json()
-        logger.info(data)
         logger.success("successfully obtained new fflogs token")
         return FFLogsTokenResponse(**data)
         

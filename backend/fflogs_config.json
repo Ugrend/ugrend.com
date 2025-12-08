@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Ugrend Moonlight",
+      "server": "Ravana",
+      "region": "oc"
+    },
+    {
+      "name": "Ugrend Starlight",
+      "server": "Brynhildr",
+      "region": "na"
+    }
+  ],
+  "savage_zones": [
+    {
+      "zone_id": 68,
+      "name": "AAC Cruiserweight"
+    },
+    {
+      "zone_id": 62,
+      "name": "AAC Light-Heavyweight"
+    }
+  ],
+  "ultimate_zones": []
+}
