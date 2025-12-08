@@ -4,9 +4,24 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
+from contextlib import asynccontextmanager
 from views.base import api_router
+from lib.fflogs_config import fflogs_config_manager
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    fflogs_config_manager.load_config()
+    # update_zones does network IO, so we might want to do it somewhat asynchronously or just call it.
+    # Since it is synchronous logic using httpx (I used Client() so it's sync), it will block startup.
+    # User requested "When the application starts up it should make the following request".
+    # Sync is fine for now/simple implementation.
+    fflogs_config_manager.update_zones()
+    fflogs_config_manager.fetch_and_store_rankings()
+    yield
+    # Shutdown
+
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(api_router)
 
