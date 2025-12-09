@@ -187,12 +187,23 @@ class FFLogsConfigManager:
                             
                             # Infer difficulty based on config
                             difficulty = 101 # Default to savage
-                            if any(z.zone_id == z_id for z in self.config.ultimate_zones):
+                            zone_name = "Unknown Zone"
+                            
+                            # Find zone name in savage zones
+                            savage_match = next((z for z in self.config.savage_zones if z.zone_id == z_id), None)
+                            if savage_match:
+                                zone_name = savage_match.name
+                            
+                            # Check if it's in ultimate zones
+                            ultimate_match = next((z for z in self.config.ultimate_zones if z.zone_id == z_id), None)
+                            if ultimate_match:
                                 difficulty = 100
+                                zone_name = ultimate_match.name
                             
                             # 'val' should contain 'rankings' list due to our query structure
                             # Construct the ZoneRankingData object. Pydantic will handle sub-model validation.
                             zone_ranking_data = ZoneRankingData(
+                                name=zone_name,
                                 difficulty=difficulty,
                                 zone=z_id,
                                 rankings=val.get("rankings", [])
@@ -219,16 +230,13 @@ class FFLogsConfigManager:
 
     def ensure_encounter_icon(self, encounter_id: int):
         img_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist/assets/imgs"))
-        
         if not os.path.exists(img_dir):
             try:
                 os.makedirs(img_dir, exist_ok=True)
             except Exception as e:
                 logger.error(f"Could not create image directory {img_dir}: {e}")
                 return
-
         img_path = os.path.join(img_dir, f"{encounter_id}-icon.jpg")
-        
         if not os.path.exists(img_path):
             url = f"https://assets.rpglogs.com/img/ff/bosses/{encounter_id}-icon.jpg"
             try:

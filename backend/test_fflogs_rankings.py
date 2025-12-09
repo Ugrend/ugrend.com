@@ -28,7 +28,7 @@ def test_fflogs_ranking_flow():
         for char_key, zone_data in rankings.items():
             logger.info(f"Character: {char_key}")
             for zone_key, data in zone_data.items():
-                logger.info(f"  Zone {zone_key}: Difficulty {data.difficulty}, ZoneID {data.zone}, Rankings Count: {len(data.rankings)}")
+                logger.info(f"  Zone {zone_key}: Name '{data.name}', Difficulty {data.difficulty}, ZoneID {data.zone}, Rankings Count: {len(data.rankings)}")
                 if data.rankings:
                     # Print first ranking details to verify parsing
                     r = data.rankings[0]

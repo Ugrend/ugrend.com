@@ -34,17 +34,20 @@ class AllStars(BaseModel):
 
 class Ranking(BaseModel):
     encounter: Encounter
-    rankPercent: float
-    medianPercent: float
+    rankPercent: float | None
+    medianPercent: float | None
     lockedIn: bool
     totalKills: int
     fastestKill: int
     allStars: Optional[AllStars] = None
+    spec: str | None
 
 class ZoneRankingData(BaseModel):
+    name: str # Added name field as requested
     difficulty: int
     zone: int
     rankings: List[Ranking]
+ 
 
 class CharacterData(BaseModel):
     # Dynamic keys like "zone_68" will be handled by looking at the model fields or using a dict wrapper if needed.

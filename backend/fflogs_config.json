@@ -21,5 +21,26 @@
       "name": "AAC Light-Heavyweight"
     }
   ],
-  "ultimate_zones": []
+  "ultimate_zones": [
+    {
+      "zone_id": 59,
+      "name": "Ultimates (Legacy) DT"
+    },
+    {
+      "zone_id": 65,
+      "name": "Futures Rewritten"
+    },
+    {
+      "zone_id": 43,
+      "name": "Ultimates (Legacy) EW"
+    },
+    {
+      "zone_id": 45,
+      "name": "Dragonsong's Reprise"
+    },
+    {
+      "zone_id": 53,
+      "name": "The Omega Protocol"
+    }
+  ]
 }
