@@ -199,6 +199,10 @@ class FFLogsConfigManager:
                             )
                             char_zones_data[key] = zone_ranking_data
                             
+                            # Download icons for encounters
+                            for ranking in zone_ranking_data.rankings:
+                                self.ensure_encounter_icon(ranking.encounter.id)
+                            
                         except Exception as e:
                             logger.error(f"Error parsing zone data for {key}: {e}")
                             continue
@@ -212,6 +216,33 @@ class FFLogsConfigManager:
         except Exception as e:
              logger.error(f"Error fetching rankings: {e}")
              # We do not raise here to prevent crashing the app loop, but we could if critical.
+
+    def ensure_encounter_icon(self, encounter_id: int):
+        img_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist/assets/imgs"))
+        
+        if not os.path.exists(img_dir):
+            try:
+                os.makedirs(img_dir, exist_ok=True)
+            except Exception as e:
+                logger.error(f"Could not create image directory {img_dir}: {e}")
+                return
+
+        img_path = os.path.join(img_dir, f"{encounter_id}-icon.jpg")
+        
+        if not os.path.exists(img_path):
+            url = f"https://assets.rpglogs.com/img/ff/bosses/{encounter_id}-icon.jpg"
+            try:
+                with httpx.Client() as client:
+                    resp = client.get(url)
+                    if resp.status_code == 200:
+                        with open(img_path, "wb") as f:
+                            f.write(resp.content)
+                        logger.info(f"Downloaded icon for encounter {encounter_id}")
+                    else:
+                        logger.warning(f"Failed to download icon for encounter {encounter_id}: Status {resp.status_code}")
+            except Exception as e:
+                logger.error(f"Error downloading icon for encounter {encounter_id}: {e}")
+
 
     def get_rankings(self) -> Dict[str, Dict[str, ZoneRankingData]]:
         now = datetime.now()
