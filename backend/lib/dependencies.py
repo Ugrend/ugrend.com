@@ -78,12 +78,7 @@ def get_token() -> FFLogsTokenResponse:
     
     if should_refresh:
         token_data = refresh_token()
-        
-        # Calculate expiry time
-        # token_data.expires_in is in seconds (standard OAuth), but user said milliseconds?
-        # User said: "token.expires_in is in miliseconds."
-        # I will follow user instructions strictly: milliseconds.
-        expiry_delta = timedelta(milliseconds=token_data.expires_in)
+        expiry_delta = timedelta(seconds=token_data.expires_in)
         new_expiry = now + expiry_delta
         
         _CURRENT_TOKEN["token"] = token_data
