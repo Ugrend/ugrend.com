@@ -34,9 +34,8 @@ const Dashboard: React.FC = () => {
     }, []);
 
     // Derived lists of zones from data, separated by difficulty
-    const { zones_101, zones_100, availableRegions } = React.useMemo(() => {
+    const { zones_101, availableRegions } = React.useMemo(() => {
         const z101 = new Set<string>();
-        const z100 = new Set<string>();
         const regions = new Set<string>();
 
         if (data) {
@@ -52,8 +51,6 @@ const Dashboard: React.FC = () => {
                 Object.values(charRegions).forEach(zoneData => {
                     if (zoneData.difficulty === 101) {
                         z101.add(zoneData.name);
-                    } else if (zoneData.difficulty === 100) {
-                        z100.add(zoneData.name);
                     }
                 });
             });
@@ -61,10 +58,9 @@ const Dashboard: React.FC = () => {
 
         // Sort alphabetically, then reverse so latest is first (AAC Light vs AAC Cruiser)
         const sorted101 = Array.from(z101).sort().reverse();
-        const sorted100 = Array.from(z100).sort(); // Order for 100 doesn't matter for toggles as they are aggregated
         const sortedRegions = Array.from(regions).sort();
 
-        return { zones_101: sorted101, zones_100: sorted100, availableRegions: sortedRegions };
+        return { zones_101: sorted101, availableRegions: sortedRegions };
     }, [data]);
 
 
@@ -107,8 +103,7 @@ const Dashboard: React.FC = () => {
                     data={data}
                     selectedRegion={selectedRegion}
                     selectedZone={selectedZone}
-                    zones_101={zones_101}
-                    zones_100={zones_100}
+
                 />
             </div>
 

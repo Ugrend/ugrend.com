@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import type { APIResponse, ZoneRankingData, Ranking } from '../types';
+import type { APIResponse, ZoneRankingData } from '../types';
 
 interface RankingTableProps {
     data: APIResponse | null;
