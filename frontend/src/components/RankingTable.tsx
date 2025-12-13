@@ -19,6 +19,7 @@ interface AggregatedEncounter {
     zoneName: string;
     zoneId: number;
     difficulty: number;
+    spec: string; // Add spec
 }
 
 // FFLogs Color Map
@@ -32,6 +33,56 @@ const COLOR_GRADES = {
     ff0: "#666666"
 };
 
+// Job Colors (Standard FFXIV Job Colors)
+const JOB_COLORS: { [key: string]: string } = {
+    'Astrologian': '#FFE74A', 'AST': '#FFE74A',
+    'Bard': '#91BAFE', 'BRD': '#91BAFE',
+    'Black Mage': '#A579D6', 'BLM': '#A579D6',
+    'Dancer': '#E2B0AF', 'DNC': '#E2B0AF',
+    'Dark Knight': '#D126CC', 'DRK': '#D126CC',
+    'Dragoon': '#4164CD', 'DRG': '#4164CD',
+    'Gunbreaker': '#796D30', 'GNB': '#796D30',
+    'Machinist': '#6EE1D6', 'MCH': '#6EE1D6',
+    'Monk': '#D69C00', 'MNK': '#D69C00',
+    'Ninja': '#AF1964', 'NIN': '#AF1964',
+    'Paladin': '#A8D2E6', 'PLD': '#A8D2E6',
+    'Pictomancer': '#fc92e1', 'PCT': '#fc92e1', // Best guess/approx for new job
+    'Reaper': '#965A90', 'RPR': '#965A90',
+    'Red Mage': '#E87B7B', 'RDM': '#E87B7B',
+    'Sage': '#80A0F0', 'SGE': '#80A0F0',
+    'Samurai': '#E46D04', 'SAM': '#E46D04',
+    'Scholar': '#8657FF', 'SCH': '#8657FF',
+    'Summoner': '#2D9B78', 'SMN': '#2D9B78',
+    'Viper': '#108210', 'VPR': '#108210', // Best guess for new job
+    'Warrior': '#CF2621', 'WAR': '#CF2621',
+    'White Mage': '#FFF0DC', 'WHM': '#FFF0DC'
+};
+
+// Job Abbreviations (Mapping Full Name to Standard Abbreviation)
+const JOB_ABBRS: { [key: string]: string } = {
+    'Astrologian': 'AST', 'AST': 'AST',
+    'Bard': 'BRD', 'BRD': 'BRD',
+    'Black Mage': 'BLM', 'BLM': 'BLM',
+    'Dancer': 'DNC', 'DNC': 'DNC',
+    'Dark Knight': 'DRK', 'DRK': 'DRK',
+    'Dragoon': 'DRG', 'DRG': 'DRG',
+    'Gunbreaker': 'GNB', 'GNB': 'GNB',
+    'Machinist': 'MCH', 'MCH': 'MCH',
+    'Monk': 'MNK', 'MNK': 'MNK',
+    'Ninja': 'NIN', 'NIN': 'NIN',
+    'Paladin': 'PLD', 'PLD': 'PLD',
+    'Pictomancer': 'PCT', 'PCT': 'PCT',
+    'Reaper': 'RPR', 'RPR': 'RPR',
+    'Red Mage': 'RDM', 'RDM': 'RDM',
+    'Sage': 'SGE', 'SGE': 'SGE',
+    'Samurai': 'SAM', 'SAM': 'SAM',
+    'Scholar': 'SCH', 'SCH': 'SCH',
+    'Summoner': 'SMN', 'SMN': 'SMN',
+    'Viper': 'VPR', 'VPR': 'VPR',
+    'Warrior': 'WAR', 'WAR': 'WAR',
+    'White Mage': 'WHM', 'WHM': 'WHM'
+};
+
 const getPercentColor = (value: number) => {
     if (value === 100) return COLOR_GRADES.ff100;
     if (value >= 99) return COLOR_GRADES.ff99;
@@ -42,7 +93,7 @@ const getPercentColor = (value: number) => {
     return COLOR_GRADES.ff0;
 };
 
-const ANIMATION_DURATION = 800; // ms
+const ANIMATION_DURATION = 1200; // ms
 
 // Custom hook to animate value
 const useAnimatedValue = (target: number, duration: number = ANIMATION_DURATION) => {
@@ -84,6 +135,31 @@ const useAnimatedValue = (target: number, duration: number = ANIMATION_DURATION)
     return displayValue;
 };
 
+const JobIcon: React.FC<{ spec: string }> = ({ spec }) => {
+    if (!spec) return <span style={{ color: '#444' }}>-</span>;
+    // Map full names to abbreviations if possible, or just use first 3 chars
+    // This simple mapping handles common cases; API might return Full Name or Abbr.
+    // We'll trust the spec string for now or do a quick lookup if needed.
+    const color = JOB_COLORS[spec] || '#fff';
+    const abbr = JOB_ABBRS[spec] || spec.substring(0, 3).toUpperCase();
+
+    return (
+        <span style={{
+            color: color,
+            fontWeight: 'bold',
+            fontSize: '0.85rem',
+            border: `1px solid ${color}`,
+            borderRadius: '3px',
+            padding: '2px 4px',
+            display: 'inline-block',
+            width: '3.5ch',
+            textAlign: 'center'
+        }}>
+            {abbr}
+        </span>
+    );
+};
+
 const RankingRow: React.FC<{ row: AggregatedEncounter }> = ({ row }) => {
     // Animate Best and Median
     const animatedBest = useAnimatedValue(row.bestPercent);
@@ -109,6 +185,10 @@ const RankingRow: React.FC<{ row: AggregatedEncounter }> = ({ row }) => {
                     }}
                 />
                 {row.encounterName}
+            </td>
+            {/* Spec */}
+            <td style={{ padding: '0.75rem' }}>
+                {hasKills ? <JobIcon spec={row.spec} /> : '-'}
             </td>
             {/* Best % */}
             <td style={{ padding: '0.75rem', color: hasKills ? getPercentColor(animatedBest) : '#aaa', fontWeight: hasKills ? 'bold' : 'normal' }}>
@@ -173,7 +253,8 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selec
                             rank: 9999999, // placeholder for min
                             zoneName: zoneParams.name,
                             zoneId: zoneParams.zone,
-                            difficulty: zoneParams.difficulty
+                            difficulty: zoneParams.difficulty,
+                            spec: ''
                         });
                     }
 
@@ -181,6 +262,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selec
 
                     if (ranking.rankPercent && ranking.rankPercent > current.bestPercent) {
                         current.bestPercent = ranking.rankPercent;
+                        if (ranking.spec) current.spec = ranking.spec; // Capture spec of best rank
                     }
 
                     if (ranking.medianPercent && ranking.medianPercent > current.medianPercent) {
@@ -223,6 +305,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selec
                 <thead>
                     <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--dim-color)' }}>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Boss</th>
+                        <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Spec</th>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Best %</th>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Median %</th>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Kills</th>
@@ -238,7 +321,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selec
                     {/* Spacer */}
                     {mainTableData.length > 0 && ultTableData.length > 0 && (
                         <tr style={{ height: '2rem' }}>
-                            <td colSpan={5}></td>
+                            <td colSpan={6}></td>
                         </tr>
                     )}
 
