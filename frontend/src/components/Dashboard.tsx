@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
                     minHeight: '2rem' // Prevent layout shift
                 }}>
                     {currentPlayer ? (
-                        <>Hi <Typewriter text={currentPlayer} /></>
+                        <>Hi <Typewriter text={currentPlayer + " :3"} /></>
                     ) : (
                         "Hi"
                     )}
