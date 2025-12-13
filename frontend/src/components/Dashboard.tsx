@@ -146,8 +146,9 @@ const Dashboard: React.FC = () => {
                     {currentPlayer ? (
                         <>Hi <Typewriter text={currentPlayer} /></>
                     ) : (
-                        "Hi!"
+                        "Hi"
                     )}
+                    {"!"}
                 </div>
                 <div style={{
                     fontSize: '3rem',
@@ -202,7 +203,7 @@ const Typewriter: React.FC<{ text: string }> = ({ text }) => {
 
         const interval = setInterval(() => {
             currentIndex++;
-            setDisplayedText(text.slice(0, currentIndex) + "!");
+            setDisplayedText(text.slice(0, currentIndex));
 
             if (currentIndex >= text.length) {
                 setIsFinished(true);
