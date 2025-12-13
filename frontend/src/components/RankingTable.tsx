@@ -47,8 +47,8 @@ const ANIMATION_DURATION = 800; // ms
 // Custom hook to animate value
 const useAnimatedValue = (target: number, duration: number = ANIMATION_DURATION) => {
     const [displayValue, setDisplayValue] = React.useState(target);
-    const frameRef = React.useRef<number>();
-    const startTimeRef = React.useRef<number>();
+    const frameRef = React.useRef<number>(undefined);
+    const startTimeRef = React.useRef<number>(undefined);
     const startValueRef = React.useRef<number>(target);
 
     React.useEffect(() => {
