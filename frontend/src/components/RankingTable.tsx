@@ -5,8 +5,6 @@ interface RankingTableProps {
     data: APIResponse | null;
     selectedRegion: string;
     selectedZone: string;
-    zones_101: string[];
-    zones_100: string[];
 }
 
 interface AggregatedEncounter {
@@ -210,7 +208,7 @@ const RankingRow: React.FC<{ row: AggregatedEncounter }> = ({ row }) => {
     );
 };
 
-const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selectedZone, zones_101, zones_100 }) => {
+const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selectedZone }) => {
 
     // 1. Flatten all relevant character data based on region selection
     const relevantCharacters = useMemo(() => {
