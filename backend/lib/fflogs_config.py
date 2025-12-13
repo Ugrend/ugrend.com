@@ -131,7 +131,7 @@ class FFLogsConfigManager:
         
         for char in self.config.characters:
             # Create a unique alias key for the character
-            char_key = f"{char.name.replace(' ', '')}_{char.server}"
+            char_key = f"{char.name.replace(' ', '_')}_{char.server}_{char.region}"
             
             query_parts.append(f'{char_key}: characterData {{')
             query_parts.append(f'    character(name: "{char.name}", serverSlug: "{char.server}", serverRegion: "{char.region}") {{')
