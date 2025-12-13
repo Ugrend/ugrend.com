@@ -1,118 +1,118 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { APIResponse } from '../types';
 import RegionFilter from './RegionFilter';
 import ZoneSelector from './ZoneSelector';
 import RankingTable from './RankingTable';
+import Footer from './Footer';
 
 const Dashboard: React.FC = () => {
     const [data, setData] = useState<APIResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    // Filter states
     const [selectedRegion, setSelectedRegion] = useState<string>('All');
     const [selectedZone, setSelectedZone] = useState<string>('');
 
-    // Fetch data
+    // Fetch data on mount
     useEffect(() => {
-        console.log('Fetching /api/fflogs/');
-        fetch('/api/fflogs/')
-            .then(res => {
-                if (!res.ok) throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
-                return res.json();
-            })
-            .then((jsonData: APIResponse) => {
-                console.log('Data fetched:', jsonData);
+        const fetchData = async () => {
+            try {
+                // Fetch from our proxy route
+                const res = await fetch('/api/fflogs/');
+                if (!res.ok) throw new Error('Failed to fetch data');
+                const jsonData = await res.json();
+                console.log("Fetched Data:", jsonData); // Debug Log
                 setData(jsonData);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error('Fetch error:', err);
+            } catch (err: any) {
+                console.error("Fetch Error:", err);
                 setError(err.message);
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchData();
     }, []);
 
-    // Extract available Regions and Zones from data
-    const { regions, zones_101, zones_100 } = useMemo(() => {
-        if (!data) return { regions: [], zones_101: [], zones_100: [] };
+    // Derived lists of zones from data, separated by difficulty
+    const { zones_101, zones_100, availableRegions } = React.useMemo(() => {
+        const z101 = new Set<string>();
+        const z100 = new Set<string>();
+        const regions = new Set<string>();
 
-        const regionSet = new Set<string>();
-        const zone101Set = new Set<string>();
-        const zone100Set = new Set<string>();
-
-        Object.keys(data).forEach(key => {
-            // key: Name_Server_Region
-            const parts = key.split('_');
-            if (parts.length >= 4) {
-                // Region is last part
-                regionSet.add(parts[parts.length - 1].toUpperCase());
-            }
-
-            const charData = data[key];
-            Object.values(charData).forEach(zoneVal => {
-                // Collect zone names by difficulty
-                if (zoneVal.difficulty === 101) {
-                    zone101Set.add(zoneVal.name);
-                } else if (zoneVal.difficulty === 100) {
-                    zone100Set.add(zoneVal.name);
+        if (data) {
+            Object.entries(data).forEach(([key, charRegions]) => {
+                // Robust parsing: Last part is Region, Second-Last is Server
+                const parts = key.split('_');
+                // Only proceed if we have enough parts for at least Name_Server_Region (3 parts)
+                if (parts.length >= 3) {
+                    const region = parts[parts.length - 1].toUpperCase();
+                    regions.add(region);
                 }
-            });
-        });
 
-        // Sort for consistency
-        return {
-            regions: Array.from(regionSet).sort(),
-            zones_101: Array.from(zone101Set).sort().reverse(),
-            zones_100: Array.from(zone100Set).sort()
-        };
+                Object.values(charRegions).forEach(zoneData => {
+                    if (zoneData.difficulty === 101) {
+                        z101.add(zoneData.name);
+                    } else if (zoneData.difficulty === 100) {
+                        z100.add(zoneData.name);
+                    }
+                });
+            });
+        }
+
+        // Sort alphabetically, then reverse so latest is first (AAC Light vs AAC Cruiser)
+        const sorted101 = Array.from(z101).sort().reverse();
+        const sorted100 = Array.from(z100).sort(); // Order for 100 doesn't matter for toggles as they are aggregated
+        const sortedRegions = Array.from(regions).sort();
+
+        return { zones_101: sorted101, zones_100: sorted100, availableRegions: sortedRegions };
     }, [data]);
 
-    // Set default zone if none selected
+
+    // Set default zone when data loads
     useEffect(() => {
-        if (!selectedZone && zones_101.length > 0) {
-            const lastZone = zones_101[zones_101.length - 1];
-            console.log('Setting default zone:', lastZone);
-            setSelectedZone(lastZone);
+        if (zones_101.length > 0 && !selectedZone) {
+            setSelectedZone(zones_101[zones_101.length - 1]);
         }
     }, [zones_101, selectedZone]);
 
-    // Render logging
-    console.log('Dashboard Render:', {
-        loading,
-        error,
-        hasData: !!data,
-        dataKeys: data ? Object.keys(data).length : 0,
-        selectedRegion,
-        selectedZone,
-        zones101Count: zones_101.length
-    });
-
-    if (loading) return <div>Loading FFLogs Data...</div>;
-    if (error) return <div>Error loading data: {error}</div>;
-    if (!data || Object.keys(data).length === 0) return <div>No ranking data available. Please check backend config.</div>;
+    if (loading) return <div style={{ padding: '2rem', color: '#fff' }}>Loading data...</div>;
+    if (error) return <div style={{ padding: '2rem', color: 'red' }}>Error: {error}</div>;
+    if (!data) return <div style={{ padding: '2rem', color: '#fff' }}>No data found.</div>;
 
     return (
-        <div>
-            <RegionFilter
-                regions={regions}
-                selectedRegion={selectedRegion}
-                onSelect={setSelectedRegion}
-            />
+        <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '2rem',
+            paddingBottom: '100px', // Space for fixed footer
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
+            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+                <RegionFilter
+                    regions={availableRegions}
+                    selectedRegion={selectedRegion}
+                    onSelect={setSelectedRegion}
+                />
+                <ZoneSelector
+                    zones={zones_101}
+                    selectedZone={selectedZone}
+                    onSelect={setSelectedZone}
+                />
+            </header>
 
-            <ZoneSelector
-                zones={zones_101}
-                selectedZone={selectedZone}
-                onSelect={setSelectedZone}
-            />
+            <div style={{ flex: 1 }}>
+                <RankingTable
+                    data={data}
+                    selectedRegion={selectedRegion}
+                    selectedZone={selectedZone}
+                    zones_101={zones_101}
+                    zones_100={zones_100}
+                />
+            </div>
 
-            <RankingTable
-                data={data}
-                selectedRegion={selectedRegion}
-                selectedZone={selectedZone}
-                zones_101={zones_101}
-                zones_100={zones_100}
-            />
+            <Footer data={data} />
         </div>
     );
 };

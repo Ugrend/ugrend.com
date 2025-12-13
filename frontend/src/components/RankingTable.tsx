@@ -152,7 +152,7 @@ const JobIcon: React.FC<{ spec: string }> = ({ spec }) => {
             borderRadius: '3px',
             padding: '2px 4px',
             display: 'inline-block',
-            width: '3.5ch',
+            // width: '3.5ch', // Removed to fix padding issue with border-box
             textAlign: 'center'
         }}>
             {abbr}
@@ -305,7 +305,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, selectedRegion, selec
                 <thead>
                     <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--dim-color)' }}>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Boss</th>
-                        <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Spec</th>
+                        <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Job</th>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Best %</th>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Median %</th>
                         <th style={{ padding: '0.75rem', fontWeight: 'normal' }}>Kills</th>

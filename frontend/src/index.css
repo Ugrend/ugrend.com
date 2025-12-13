@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --bg-color: #0d0d0d;
   --text-color: #e0e0e0;
@@ -21,7 +27,7 @@ body {
 
 #root {
   width: 100%;
-  padding: 2rem;
+  /* padding removed to prevent double padding / overflow with 100vh children */
   box-sizing: border-box;
 }
 
@@ -51,7 +57,9 @@ button.active {
   font-weight: bold;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: normal;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -68,12 +76,15 @@ a {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-color);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--dim-color);
 }
