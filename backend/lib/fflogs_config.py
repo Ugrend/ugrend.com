@@ -1,3 +1,4 @@
+from settings import IMG_DIR
 import json
 import os
 from typing import List, Optional, Dict
@@ -28,9 +29,6 @@ def pydantic_encoder(obj):
     return NotImplemented
 
 class FFLogsConfigManager:
-
-    img_dir: str 
-
     def __init__(self, config_path: str = CONFIG_FILE_PATH):
         self.config_path = config_path
         self.config: Optional[FFLogsConfig] = None
@@ -242,13 +240,13 @@ class FFLogsConfigManager:
              # We do not raise here to prevent crashing the app loop, but we could if critical.
 
     def ensure_encounter_icon(self, encounter_id: int):
-        if not os.path.exists(self.img_dir):
+        if not os.path.exists(IMG_DIR):
             try:
-                os.makedirs(self.img_dir, exist_ok=True)
+                os.makedirs(IMG_DIR, exist_ok=True)
             except Exception as e:
-                logger.error(f"Could not create image directory {self.img_dir}: {e}")
+                logger.error(f"Could not create image directory {IMG_DIR}: {e}")
                 return
-        img_path = os.path.join(self.img_dir, f"{encounter_id}-icon.jpg")
+        img_path = os.path.join(IMG_DIR, f"{encounter_id}-icon.jpg")
         if not os.path.exists(img_path):
             url = f"https://assets.rpglogs.com/img/ff/bosses/{encounter_id}-icon.jpg"
             try:

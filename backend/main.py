@@ -7,17 +7,12 @@ from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 from views.base import api_router
 from lib.fflogs_config import fflogs_config_manager
-
-IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets", "imgs")
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+from settings import IMG_DIR, FRONTEND_DIR
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     fflogs_config_manager.load_config()
-    fflogs_config_manager.img_dir = IMG_DIR
-    print(IMG_DIR)
-    print(fflogs_config_manager.img_dir)
     # update_zones does network IO, so we might want to do it somewhat asynchronously or just call it.
     # Since it is synchronous logic using httpx (I used Client() so it's sync), it will block startup.
     # User requested "When the application starts up it should make the following request".
