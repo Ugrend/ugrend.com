@@ -85,7 +85,6 @@ def get_screenshots() -> List[Dict[str, Optional[str]]]:
             
     # Sort by date, newest to oldest (descending)
     results.sort(key=lambda x: x["_date_obj"], reverse=True)
-    print(METADATA_CACHE)
     # Remove helper key
     final_results = []
     for item in results:
