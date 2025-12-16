@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:8000',
-      '/assets': 'http://localhost:8000'
+      '/assets': 'http://localhost:8000',
+      '/assets/imgs/screenshots': 'http://localhost:8000'
     }
   }
 })

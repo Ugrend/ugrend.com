@@ -28,14 +28,14 @@ app.include_router(api_router)
 
 
 if os.path.exists(FRONTEND_DIR):
+    app.mount("/assets/imgs/", StaticFiles(directory=IMG_DIR), name="imgs")
     app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
-    app.mount("/assets/imgs", StaticFiles(directory=IMG_DIR), name="imgs")
     
     @app.get("/{full_path:path}")
     async def serve_react_app(full_path: str):
         # Serve index.html for any path not matched by API or static files
         # This supports client-side routing
-        return FileResponse(os.path.join(frontend_dist, "index.html"))
+        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
 else:
     @app.get("/")
     async def root():

@@ -1,38 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import type { APIResponse } from '../types';
+import { useOutletContext } from 'react-router-dom';
+import type { LayoutContextType } from './Layout';
 import RegionFilter from './RegionFilter';
 import ZoneSelector from './ZoneSelector';
 import RankingTable from './RankingTable';
-import Footer from './Footer';
+// import Footer from './Footer'; // Removed as it is in Layout
 
 const Dashboard: React.FC = () => {
-    const [data, setData] = useState<APIResponse | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { data } = useOutletContext<LayoutContextType>();
+
+    // Internal state for filters
     const [selectedRegion, setSelectedRegion] = useState<string>('All');
     const [selectedZone, setSelectedZone] = useState<string>('');
-
-    // Fetch data on mount
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch from our proxy route
-                const res = await fetch('/api/fflogs/');
-                if (!res.ok) throw new Error('Failed to fetch data');
-                const jsonData = await res.json();
-                console.log("Fetched Data:", jsonData); // Debug Log
-                setData(jsonData);
-            } catch (err: any) {
-                console.error("Fetch Error:", err);
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     // Derived lists of zones from data, separated by difficulty
     const { zones_101, availableRegions } = React.useMemo(() => {
@@ -115,9 +95,8 @@ const Dashboard: React.FC = () => {
         }
     }, [zones_101, selectedZone]);
 
-    if (loading) return <div style={{ padding: '2rem', color: '#fff' }}>Loading data...</div>;
-    if (error) return <div style={{ padding: '2rem', color: 'red' }}>Error: {error}</div>;
-    if (!data) return <div style={{ padding: '2rem', color: '#fff' }}>No data found.</div>;
+    // Loading/Error handled by Layout for data, but we can check if data is present
+    if (!data) return null; // Should be handled by layout loading state, but safe check
 
     return (
         <div style={{
@@ -186,8 +165,6 @@ const Dashboard: React.FC = () => {
 
                 />
             </div>
-
-            <Footer data={data} />
         </div>
     );
 };
