@@ -100,7 +100,7 @@ const Screenshots: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
-                width: '100%',
+                width: '120%',
                 height: 'auto',
                 minHeight: '600px',
                 gap: '1vw',
@@ -123,15 +123,16 @@ const Screenshots: React.FC = () => {
                         position: 'relative',
                         cursor: 'pointer',
                         filter: 'brightness(0.6)',
-                        width: '12vw',
-                        height: 'auto',
+                        width: '20vw',
+                        height: '20vw',
                         aspectRatio: '3/2',
                         zIndex: 5,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         background: 'rgba(0,0,0,0.2)',
-                        borderRadius: '16px'
+                        borderRadius: '16px',
+                        right: '-13vw'
                     }}
                     onClick={(e) => { e.stopPropagation(); prevSlide(); }}
                 >
@@ -237,15 +238,16 @@ const Screenshots: React.FC = () => {
                         position: 'relative',
                         cursor: 'pointer',
                         filter: 'brightness(0.6)',
-                        width: '12vw',
-                        height: 'auto',
+                        width: '20vw',
+                        height: '20vw',
                         aspectRatio: '3/2',
                         zIndex: 5,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         background: 'rgba(0,0,0,0.2)',
-                        borderRadius: '16px'
+                        borderRadius: '16px',
+                        left: '-13vw'
                     }}
                     onClick={(e) => { e.stopPropagation(); nextSlide(); }}
                 >

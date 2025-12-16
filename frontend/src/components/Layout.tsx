@@ -52,7 +52,7 @@ const Layout: React.FC = () => {
 
     return (
         <div style={{
-            maxWidth: '1200px',
+            maxWidth: '1800px',
             margin: '0 auto',
             minHeight: '100vh',
             display: 'flex',
