@@ -8,6 +8,7 @@ from models.fflogs import FFLogsConfig, Zone, Character, ZoneRankingData
 from lib.dependencies import get_token, FF_LOGS_CLIENT_URI
 
 CONFIG_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "fflogs_config.json")
+CACHED_FFLOGS_DATA = os.path.join(os.path.dirname(os.path.dirname(__file__)), "cached_data.json")
 
 def post_fflogs_graphql(query: str, token: str) -> dict:
     headers = {
@@ -20,6 +21,9 @@ def post_fflogs_graphql(query: str, token: str) -> dict:
         return response.json()
 
 class FFLogsConfigManager:
+
+    img_dir: str 
+
     def __init__(self, config_path: str = CONFIG_FILE_PATH):
         self.config_path = config_path
         self.config: Optional[FFLogsConfig] = None
@@ -222,6 +226,8 @@ class FFLogsConfigManager:
             
             self.ranking_data = new_ranking_data
             self.last_ranking_fetch_time = datetime.now()
+            with open(CACHED_FFLOGS_DATA, "w") as f:
+                f.write(json.dumps(new_ranking_data))
             logger.info(f"Updated rankings for {len(new_ranking_data)} characters.")
 
         except Exception as e:
@@ -229,14 +235,13 @@ class FFLogsConfigManager:
              # We do not raise here to prevent crashing the app loop, but we could if critical.
 
     def ensure_encounter_icon(self, encounter_id: int):
-        img_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist/assets/imgs"))
-        if not os.path.exists(img_dir):
+        if not os.path.exists(self.img_dir):
             try:
-                os.makedirs(img_dir, exist_ok=True)
+                os.makedirs(self.img_dir, exist_ok=True)
             except Exception as e:
-                logger.error(f"Could not create image directory {img_dir}: {e}")
+                logger.error(f"Could not create image directory {self.img_dir}: {e}")
                 return
-        img_path = os.path.join(img_dir, f"{encounter_id}-icon.jpg")
+        img_path = os.path.join(self.img_dir, f"{encounter_id}-icon.jpg")
         if not os.path.exists(img_path):
             url = f"https://assets.rpglogs.com/img/ff/bosses/{encounter_id}-icon.jpg"
             try:
@@ -263,6 +268,9 @@ class FFLogsConfigManager:
             
         if should_refresh:
             self.fetch_and_store_rankings()
+        if self.ranking_data is None and os.path.exists(CACHED_FFLOGS_DATA):
+            with open(CACHED_FFLOGS_DATA, "r") as f:
+                self.ranking_data = json.load(f)
         return self.ranking_data
 
 # Global instance

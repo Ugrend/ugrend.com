@@ -8,10 +8,16 @@ from contextlib import asynccontextmanager
 from views.base import api_router
 from lib.fflogs_config import fflogs_config_manager
 
+IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets", "imgs")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     fflogs_config_manager.load_config()
+    fflogs_config_manager.img_dir = IMG_DIR
+    print(IMG_DIR)
+    print(fflogs_config_manager.img_dir)
     # update_zones does network IO, so we might want to do it somewhat asynchronously or just call it.
     # Since it is synchronous logic using httpx (I used Client() so it's sync), it will block startup.
     # User requested "When the application starts up it should make the following request".
@@ -25,12 +31,10 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(api_router)
 
-# Serve static files from the frontend build directory
-# We assume the frontend will be built to ../frontend/dist
-frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 
-if os.path.exists(frontend_dist):
-    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+if os.path.exists(FRONTEND_DIR):
+    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
+    app.mount("/assets/imgs", StaticFiles(directory=IMG_DIR), name="imgs")
     
     @app.get("/{full_path:path}")
     async def serve_react_app(full_path: str):
