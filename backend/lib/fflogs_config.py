@@ -5,6 +5,7 @@ import httpx
 from datetime import datetime, timedelta
 from loguru import logger
 from models.fflogs import FFLogsConfig, Zone, Character, ZoneRankingData
+from pydantic import BaseModel
 from lib.dependencies import get_token, FF_LOGS_CLIENT_URI
 
 CONFIG_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "fflogs_config.json")
@@ -19,6 +20,12 @@ def post_fflogs_graphql(query: str, token: str) -> dict:
         response = client.post(FF_LOGS_CLIENT_URI, json={"query": query}, headers=headers)
         response.raise_for_status()
         return response.json()
+
+
+def pydantic_encoder(obj):
+    if isinstance(obj, BaseModel):
+        return obj.model_dump()
+    return NotImplemented
 
 class FFLogsConfigManager:
 
@@ -227,7 +234,7 @@ class FFLogsConfigManager:
             self.ranking_data = new_ranking_data
             self.last_ranking_fetch_time = datetime.now()
             with open(CACHED_FFLOGS_DATA, "w") as f:
-                f.write(json.dumps(new_ranking_data))
+                f.write(json.dumps(new_ranking_data, default=pydantic_encoder))
             logger.info(f"Updated rankings for {len(new_ranking_data)} characters.")
 
         except Exception as e:
