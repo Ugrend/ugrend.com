@@ -1,3 +1,4 @@
+from models.screenshots import Screenshot
 from fastapi import APIRouter
 import os
 from pathlib import Path
@@ -13,7 +14,7 @@ router = APIRouter(prefix="/screenshots", tags=["screenshots"])
 METADATA_CACHE: Dict[str, Dict] = {}
 
 @router.get("/")
-def get_screenshots() -> List[Dict[str, Optional[str]]]:
+def get_screenshots() -> List[Screenshot]:
     screenshots_dir = Path(IMG_DIR) / "screenshots"
     
     if not screenshots_dir.exists():
@@ -74,7 +75,7 @@ def get_screenshots() -> List[Dict[str, Optional[str]]]:
                 "filename": filename,
                 "title": title,
                 "extra": extra,
-                "_date_obj": date_obj # Helper for sorting
+                "date": date_obj # Helper for sorting
             }
             
             # Only cache if meta file was found and successfully parsed
@@ -84,19 +85,5 @@ def get_screenshots() -> List[Dict[str, Optional[str]]]:
             results.append(data_entry)
             
     # Sort by date, newest to oldest (descending)
-    results.sort(key=lambda x: x["_date_obj"], reverse=True)
-    # Remove helper key
-    final_results = []
-    for item in results:
-        # User requested: {"filename": <filename>, "title": <str>, "extra": <str> }
-        # They didn't explicitly ask for the date in the payload, but "The 1st line will be title...".
-        # "it should then return a payload {"filename": <filename>, "title": <str>, "extra": <str> }"
-        # I will strictly follow the requested payload structure, omitting the date.
-        final_results.append({
-            "filename": item["filename"],
-            "title": item["title"],
-            "extra": item["extra"],
-            "date": item["_date_obj"].isoformat()
-        })
-        
-    return final_results
+    results.sort(key=lambda x: x["date"], reverse=True)
+    return results
