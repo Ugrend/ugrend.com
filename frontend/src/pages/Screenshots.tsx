@@ -123,8 +123,8 @@ const Screenshots: React.FC = () => {
                         position: 'relative',
                         cursor: 'pointer',
                         filter: 'brightness(0.6)',
-                        width: '20vw',
-                        height: '20vw',
+                        width: '400px',
+                        height: '400px',
                         aspectRatio: '3/2',
                         zIndex: 5,
                         display: 'flex',
@@ -132,7 +132,7 @@ const Screenshots: React.FC = () => {
                         justifyContent: 'center',
                         background: 'rgba(0,0,0,0.2)',
                         borderRadius: '16px',
-                        right: '-13vw'
+                        right: '-200px'
                     }}
                     onClick={(e) => { e.stopPropagation(); prevSlide(); }}
                 >
@@ -238,8 +238,8 @@ const Screenshots: React.FC = () => {
                         position: 'relative',
                         cursor: 'pointer',
                         filter: 'brightness(0.6)',
-                        width: '20vw',
-                        height: '20vw',
+                        width: '400px',
+                        height: '400px',
                         aspectRatio: '3/2',
                         zIndex: 5,
                         display: 'flex',
@@ -247,7 +247,7 @@ const Screenshots: React.FC = () => {
                         justifyContent: 'center',
                         background: 'rgba(0,0,0,0.2)',
                         borderRadius: '16px',
-                        left: '-13vw'
+                        left: '-200px'
                     }}
                     onClick={(e) => { e.stopPropagation(); nextSlide(); }}
                 >
