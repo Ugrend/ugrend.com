@@ -13,6 +13,10 @@
   ],
   "savage_zones": [
     {
+      "zone_id": 73,
+      "name": "AAC Heavyweight"
+    },
+    {
       "zone_id": 68,
       "name": "AAC Cruiserweight"
     },

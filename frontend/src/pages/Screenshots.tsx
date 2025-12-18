@@ -108,7 +108,11 @@ const Screenshots: React.FC = () => {
             }}>
                 <style>
                     {`
-                    /* No hiding logic to ensure visibility */
+                    @media (max-width: 1500px) {
+                        .side-image {
+                            display: none !important;
+                        }
+                    }
                     `}
                 </style>
 

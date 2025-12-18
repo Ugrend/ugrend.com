@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
         }
 
         // Sort alphabetically, then reverse so latest is first (AAC Light vs AAC Cruiser)
-        const sorted101 = Array.from(z101).sort().reverse();
+        const sorted101 = Array.from(z101).reverse();
         const sortedRegions = Array.from(regions).sort();
 
         return { zones_101: sorted101, availableRegions: sortedRegions };
