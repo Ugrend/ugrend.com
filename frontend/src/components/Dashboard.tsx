@@ -90,10 +90,41 @@ const Dashboard: React.FC = () => {
 
     // Set default zone when data loads
     useEffect(() => {
-        if (zones_101.length > 0 && !selectedZone) {
-            setSelectedZone(zones_101[zones_101.length - 1]);
+        if (!data || zones_101.length === 0 || selectedZone) return;
+
+        // If only one zone, select it directly
+        if (zones_101.length === 1) {
+            setSelectedZone(zones_101[0]);
+            return;
         }
-    }, [zones_101, selectedZone]);
+
+        // Iterate backwards through zones (latest first based on current list order) to find the first one with any kills
+        for (let i = zones_101.length - 1; i >= 0; i--) {
+            const candidateZone = zones_101[i];
+            let hasAnyKills = false;
+
+            // Check if any character has recorded kills in this zone
+            for (const charRegions of Object.values(data)) {
+                const zoneData = Object.values(charRegions).find(z => z.name === candidateZone);
+
+                if (zoneData) {
+                    // Check if any ranking in this zone has kills > 0
+                    if (zoneData.rankings.some(r => r.totalKills > 0)) {
+                        hasAnyKills = true;
+                        break;
+                    }
+                }
+            }
+
+            if (hasAnyKills) {
+                setSelectedZone(candidateZone);
+                return;
+            }
+        }
+
+        // If no zones have kills, default to the last one
+        setSelectedZone(zones_101[zones_101.length - 1]);
+    }, [zones_101, selectedZone, data]);
 
     // Loading/Error handled by Layout for data, but we can check if data is present
     if (!data) return null; // Should be handled by layout loading state, but safe check
