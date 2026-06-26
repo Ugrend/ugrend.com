@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 from views.base import api_router
 from lib.fflogs_config import fflogs_config_manager
-from settings import IMG_DIR, FRONTEND_DIR
+from settings import IMG_DIR, FRONTEND_DIR, LLMS_TXT
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,6 +25,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(api_router)
+
+
+@app.get("/llms.txt", include_in_schema=False)
+async def llms_txt():
+    # Curated, plain-text context for LLMs (see https://llmstxt.org/).
+    # Served openly but not linked from the UI, so users never see it.
+    return FileResponse(LLMS_TXT, media_type="text/plain; charset=utf-8")
 
 
 if os.path.exists(FRONTEND_DIR):
